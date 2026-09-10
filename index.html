@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lala Ops — Operations Intelligence</title>
+
+  <link rel="stylesheet" href="./style.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+
+    <div class="brand">
+      <div class="brand-icon">L</div>
+      <div>
+        <h2>Lala<span>Ops</span></h2>
+        <small>Operations Intelligence</small>
+      </div>
+    </div>
+
+    <div class="workspace">
+      <small>WORKSPACE</small>
+    </div>
+
+    <nav>
+      <button class="nav-item active" onclick="showPage('dashboard', this)">
+        <span>⌂</span> Dashboard
+      </button>
+
+      <button class="nav-item" onclick="showPage('requests', this)">
+        <span>▣</span> Requests
+        <b class="nav-count" id="requestCount">4</b>
+      </button>
+
+      <button class="nav-item" onclick="showPage('tasks', this)">
+        <span>✓</span> Tasks
+      </button>
+
+      <button class="nav-item" onclick="showPage('mywork', this)">
+        <span>◉</span> My Work
+      </button>
+
+      <button class="nav-item" onclick="showPage('employees', this)">
+        <span>♙</span> Employees
+      </button>
+
+      <button class="nav-item" onclick="showPage('activity', this)">
+        <span>↗</span> Activity
+      </button>
+    </nav>
+
+    <div class="sidebar-bottom">
+
+      <div class="upgrade-card">
+        <div class="spark">✦</div>
+        <strong>AI-powered ops</strong>
+        <p>Turn messy requests into clear actions.</p>
+      </div>
+
+      <div class="profile-mini">
+        <div class="avatar">SD</div>
+
+        <div>
+          <strong>Shantanu Das</strong>
+          <small>Manager</small>
+        </div>
+
+        <span>⋮</span>
+      </div>
+
+    </div>
+
+  </aside>
+
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- TOPBAR -->
+    <header class="topbar">
+
+      <div class="mobile-brand">
+        <strong>Lala<span>Ops</span></strong>
+      </div>
+
+      <div class="top-search">
+        <span>⌕</span>
+
+        <input
+          type="text"
+          id="globalSearch"
+          placeholder="Search tasks, customers, requests..."
+          oninput="globalSearch()"
+        >
+
+        <kbd>⌘ K</kbd>
+      </div>
+
+      <div class="top-actions">
+
+        <button
+          class="icon-btn"
+          onclick="showNotifications()"
+          title="Notifications"
+        >
+          ♧
+        </button>
+
+        <div class="online-dot"></div>
+
+        <div class="top-avatar">SD</div>
+
+      </div>
+
+    </header>
+
+
+    <!-- DASHBOARD -->
+    <section id="dashboard" class="page active-page">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">MONDAY, SEPTEMBER 10, 2026</div>
+
+          <h1>Good afternoon, Shantanu 👋</h1>
+
+          <p>
+            Here’s what’s happening across your operations today.
+          </p>
+        </div>
+
+        <button class="primary-btn" onclick="openRequestModal()">
+          ＋ New Request
+        </button>
+
+      </div>
+
+
+      <!-- STATS -->
+      <div class="stats-grid">
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+            <span>Total Tasks</span>
+            <div class="stat-icon blue">✓</div>
+          </div>
+
+          <strong id="totalTasks">0</strong>
+
+          <div class="stat-change positive">
+            ↑ 18.2% <span>vs last week</span>
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+            <span>In Progress</span>
+            <div class="stat-icon purple">◔</div>
+          </div>
+
+          <strong id="inProgress">0</strong>
+
+          <div class="stat-change neutral">
+            Active right now
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+            <span>Due Today</span>
+            <div class="stat-icon orange">◷</div>
+          </div>
+
+          <strong id="dueToday">0</strong>
+
+          <div class="stat-change warning">
+            High priority
+          </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+          <div class="stat-top">
+            <span>Overdue</span>
+            <div class="stat-icon red">!</div>
+          </div>
+
+          <strong id="overdue">0</strong>
+
+          <div class="stat-change danger">
+            Needs attention
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- DASHBOARD GRID -->
+      <div class="dashboard-grid">
+
+        <!-- PRIORITY -->
+        <div class="panel priority-panel">
+
+          <div class="panel-heading">
+
+            <div>
+              <h3>Priority Overview</h3>
+              <p>Current workload by priority</p>
+            </div>
+
+            <button class="text-btn" onclick="showPage('tasks')">
+              View all →
+            </button>
+
+          </div>
+
+
+          <div class="priority-bars">
+
+            <div class="priority-row">
+              <div>
+                <span class="priority-dot critical"></span>
+                Critical
+                <b id="criticalCount">0</b>
+              </div>
+
+              <div class="bar">
+                <i id="criticalBar" class="critical-bar"></i>
+              </div>
+            </div>
+
+
+            <div class="priority-row">
+              <div>
+                <span class="priority-dot high"></span>
+                High
+                <b id="highCount">0</b>
+              </div>
+
+              <div class="bar">
+                <i id="highBar" class="high-bar"></i>
+              </div>
+            </div>
+
+
+            <div class="priority-row">
+              <div>
+                <span class="priority-dot medium"></span>
+                Medium
+                <b id="mediumCount">0</b>
+              </div>
+
+              <div class="bar">
+                <i id="mediumBar" class="medium-bar"></i>
+              </div>
+            </div>
+
+
+            <div class="priority-row">
+              <div>
+                <span class="priority-dot low"></span>
+                Low
+                <b id="lowCount">0</b>
+              </div>
+
+              <div class="bar">
+                <i id="lowBar" class="low-bar"></i>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- AI IMPACT -->
+        <div class="panel ai-panel">
+
+          <div class="ai-glow">✦</div>
+
+          <div class="panel-heading">
+
+            <div>
+              <h3>AI Operations Impact</h3>
+              <p>Automation at a glance</p>
+            </div>
+
+            <span class="ai-badge">
+              AI ACTIVE
+            </span>
+
+          </div>
+
+          <div class="impact-number">68%</div>
+
+          <p class="impact-label">
+            requests processed with AI
+          </p>
+
+          <div class="impact-stats">
+
+            <div>
+              <strong>17</strong>
+              <span>AI requests</span>
+            </div>
+
+            <div>
+              <strong>4.2h</strong>
+              <span>time saved</span>
+            </div>
+
+            <div>
+              <strong>91%</strong>
+              <span>accuracy</span>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- RECENT TASKS -->
+      <div class="panel table-panel">
+
+        <div class="panel-heading">
+
+          <div>
+            <h3>Recent Tasks</h3>
+            <p>Latest operational activity</p>
+          </div>
+
+          <button
+            class="text-btn"
+            onclick="showPage('tasks')"
+          >
+            View all tasks →
+          </button>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>TASK</th>
+                <th>CUSTOMER</th>
+                <th>PRIORITY</th>
+                <th>ASSIGNEE</th>
+                <th>DEADLINE</th>
+                <th>STATUS</th>
+              </tr>
+            </thead>
+
+            <tbody id="dashboardTasks"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- REQUESTS -->
+    <section id="requests" class="page">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">INBOX</div>
+
+          <h1>Requests</h1>
+
+          <p>
+            Capture messy requests and turn them into actionable work.
+          </p>
+        </div>
+
+        <button
+          class="primary-btn"
+          onclick="openRequestModal()"
+        >
+          ＋ New Request
+        </button>
+
+      </div>
+
+
+      <div class="request-hero">
+
+        <div class="hero-ai-icon">✦</div>
+
+        <div>
+          <h2>Let AI understand the mess.</h2>
+
+          <p>
+            Paste a WhatsApp message, email, or customer request.
+            LalaOps extracts the important details for you.
+          </p>
+        </div>
+
+        <button
+          class="secondary-btn"
+          onclick="openRequestModal()"
+        >
+          Process Request →
+        </button>
+
+      </div>
+
+
+      <div class="filter-row">
+
+        <button class="filter active" onclick="filterRequests('all', this)">
+          All <span id="allRequestCount">0</span>
+        </button>
+
+        <button class="filter" onclick="filterRequests('AI Processed', this)">
+          AI Processed
+        </button>
+
+        <button class="filter" onclick="filterRequests('Needs Review', this)">
+          Needs Review
+        </button>
+
+        <button class="filter" onclick="filterRequests('Converted', this)">
+          Converted
+        </button>
+
+      </div>
+
+
+      <div id="requestCards"></div>
+
+    </section>
+
+
+    <!-- TASKS -->
+    <section id="tasks" class="page">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">WORK MANAGEMENT</div>
+
+          <h1>Tasks</h1>
+
+          <p>
+            Track every action from assignment to completion.
+          </p>
+        </div>
+
+        <button
+          class="primary-btn"
+          onclick="openTaskModal()"
+        >
+          ＋ New Task
+        </button>
+
+      </div>
+
+
+      <div class="task-toolbar">
+
+        <div class="local-search">
+
+          ⌕
+
+          <input
+            id="taskSearch"
+            placeholder="Search tasks..."
+            oninput="renderTasks()"
+          >
+
+        </div>
+
+
+        <select
+          id="statusFilter"
+          onchange="renderTasks()"
+        >
+          <option value="all">All Status</option>
+          <option>Assigned</option>
+          <option>In Progress</option>
+          <option>Blocked</option>
+          <option>Completed</option>
+        </select>
+
+
+        <select
+          id="priorityFilter"
+          onchange="renderTasks()"
+        >
+          <option value="all">All Priority</option>
+          <option>Critical</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+        </select>
+
+      </div>
+
+
+      <div
+        class="task-board"
+        id="taskBoard"
+      ></div>
+
+    </section>
+
+
+    <!-- MY WORK -->
+    <section id="mywork" class="page">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">PERSONAL WORKSPACE</div>
+
+          <h1>My Work</h1>
+
+          <p>
+            Your assigned tasks, deadlines and priorities.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="work-summary">
+
+        <div class="mini-stat">
+          <span>My Active Tasks</span>
+          <strong id="myActive">0</strong>
+        </div>
+
+        <div class="mini-stat">
+          <span>Due Today</span>
+          <strong id="myDue">0</strong>
+        </div>
+
+        <div class="mini-stat danger-mini">
+          <span>Overdue</span>
+          <strong id="myOverdue">0</strong>
+        </div>
+
+        <div class="mini-stat">
+          <span>Completed</span>
+          <strong id="myCompleted">0</strong>
+        </div>
+
+      </div>
+
+
+      <div class="panel table-panel">
+
+        <div class="panel-heading">
+
+          <div>
+            <h3>My Tasks</h3>
+            <p>Focus on what needs to be done.</p>
+          </div>
+
+        </div>
+
+
+        <div class="table-wrap">
+
+          <table>
+
+            <thead>
+              <tr>
+                <th>TASK</th>
+                <th>PRIORITY</th>
+                <th>DEADLINE</th>
+                <th>STATUS</th>
+                <th>ACTION</th>
+              </tr>
+            </thead>
+
+            <tbody id="myWorkTable"></tbody>
+
+          </table>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- EMPLOYEES -->
+    <section id="employees" class="page">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">TEAM</div>
+
+          <h1>Employees</h1>
+
+          <p>
+            Understand workload and distribute work intelligently.
+          </p>
+        </div>
+
+        <button
+          class="secondary-btn"
+          onclick="showToast('Employee management is available in the premium workflow.')"
+        >
+          ＋ Add Employee
+        </button>
+
+      </div>
+
+
+      <div
+        class="employee-grid"
+        id="employeeGrid"
+      ></div>
+
+    </section>
+
+
+    <!-- ACTIVITY -->
+    <section id="activity" class="page">
+
+      <div class="page-heading">
+
+        <div>
+          <div class="eyebrow">AUDIT TRAIL</div>
+
+          <h1>Activity</h1>
+
+          <p>
+            Everything important that happened in your workspace.
+          </p>
+        </div>
+
+      </div>
+
+
+      <div class="panel activity-panel">
+
+        <div id="activityList"></div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+</div>
+
+
+<!-- REQUEST MODAL -->
+<div
+  class="modal-overlay"
+  id="requestModal"
+>
+
+  <div class="modal">
+
+    <button
+      class="modal-close"
+      onclick="closeRequestModal()"
+    >
+      ×
+    </button>
+
+    <div class="modal-icon">✦</div>
+
+    <div class="eyebrow">
+      AI REQUEST PROCESSOR
+    </div>
+
+    <h2>
+      Turn a request into action
+    </h2>
+
+    <p class="modal-subtitle">
+      Paste the original customer message.
+      AI will extract the operational details.
+    </p>
+
+
+    <label>
+      Original Request
+    </label>
+
+    <textarea
+      id="newRequest"
+      placeholder="Example: Customer ABC needs their invoice corrected because the GST number is wrong. They need it before tomorrow."
+    ></textarea>
+
+
+    <div class="two-inputs">
+
+      <div>
+
+        <label>
+          Customer
+        </label>
+
+        <input
+          id="newCustomer"
+          placeholder="Customer name"
+        >
+
+      </div>
+
+
+      <div>
+
+        <label>
+          Source
+        </label>
+
+        <select id="newSource">
+          <option>WhatsApp</option>
+          <option>Email</option>
+          <option>Chat</option>
+          <option>Manual</option>
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <button
+      class="primary-btn full-btn"
+      onclick="processNewRequest()"
+    >
+      ✦ Analyze with AI
+    </button>
+
+  </div>
+
+</div>
+
+
+<!-- REVIEW MODAL -->
+<div
+  class="modal-overlay"
+  id="reviewModal"
+>
+
+  <div class="modal review-modal">
+
+    <button
+      class="modal-close"
+      onclick="closeReview()"
+    >
+      ×
+    </button>
+
+
+    <div class="review-header">
+
+      <div class="modal-icon">✦</div>
+
+      <div>
+
+        <div class="eyebrow">
+          AI ANALYSIS COMPLETE
+        </div>
+
+        <h2>
+          Review extracted details
+        </h2>
+
+      </div>
+
+      <span class="confidence">
+        94% confidence
+      </span>
+
+    </div>
+
+
+    <div class="original-message">
+
+      <small>
+        ORIGINAL MESSAGE
+      </small>
+
+      <p id="reviewOriginal"></p>
+
+    </div>
+
+
+    <div class="ai-fields">
+
+      <div class="field">
+
+        <label>
+          Task Title
+        </label>
+
+        <input id="reviewTitle">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Customer
+        </label>
+
+        <input id="reviewCustomer">
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Category
+        </label>
+
+        <select id="reviewCategory">
+
+          <option>Billing</option>
+          <option>Customer Support</option>
+          <option>Sales</option>
+          <option>Operations</option>
+          <option>Technical</option>
+          <option>Administrative</option>
+          <option>HR</option>
+          <option>Other</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Priority
+        </label>
+
+        <select id="reviewPriority">
+
+          <option>Critical</option>
+          <option>High</option>
+          <option>Medium</option>
+          <option>Low</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Suggested Assignee
+        </label>
+
+        <select id="reviewAssignee">
+
+          <option>Rahul Sharma</option>
+          <option>Ananya Roy</option>
+          <option>Arjun Mehta</option>
+          <option>Unassigned</option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label>
+          Deadline
+        </label>
+
+        <input
+          type="date"
+          id="reviewDeadline"
+        >
+
+      </div>
+
+    </div>
+
+
+    <div class="review-action">
+
+      <span>
+        Human review required before task creation
+      </span>
+
+      <button
+        class="primary-btn"
+        onclick="createReviewedTask()"
+      >
+        ✓ Confirm & Create Task
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- NOTIFICATIONS -->
+<div
+  class="notification-popup"
+  id="notificationPopup"
+>
+
+  <div class="popup-heading">
+
+    <strong>
+      Notifications
+    </strong>
+
+    <button onclick="hideNotifications()">
+      ×
+    </button>
+
+  </div>
+
+
+  <div class="notification">
+
+    <div class="notification-icon red">
+      !
+    </div>
+
+    <div>
+
+      <strong>
+        Invoice task is overdue
+      </strong>
+
+      <p>
+        2 hours ago
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="notification">
+
+    <div class="notification-icon blue">
+      ✓
+    </div>
+
+    <div>
+
+      <strong>
+        Task assigned to Rahul
+      </strong>
+
+      <p>
+        1 hour ago
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <div class="notification">
+
+    <div class="notification-icon purple">
+      ✦
+    </div>
+
+    <div>
+
+      <strong>
+        AI processed 3 requests
+      </strong>
+
+      <p>
+        Today
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- TOAST -->
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script src="./app.js"></script>
+
+</body>
+</html>
